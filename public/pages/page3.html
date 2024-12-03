@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plotly Scatter Plot</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+<div id="plotly-chart" style="width: 100%; height: 600px;"></div>
+
+<script>
+    // Sample data
+    var time = Array.from({length: 100}, (_, i) => i / 100); // Time from 0 to 1
+    var values = Array.from({length: 100}, () => {
+        return Math.random() * 30 + 1920; // Random values around the 1930 mark
+    });
+
+    // Create the trace
+    var trace = {
+        x: time,
+        y: values,
+        mode: 'lines+markers',
+        type: 'scatter',
+        name: 'Peak values',
+        line: {
+            color: 'blue',
+            width: 1,
+            dash: 'dot' // Dotted line for the peak values
+        },
+        marker: {
+            size: 5,
+            color: 'blue'
+        }
+    };
+
+    // Create the layout
+    var layout = {
+        title: 'Partial discharge pulse',
+        xaxis: {
+            title: 'Time',
+            range: [0, 1]
+        },
+        yaxis: {
+            title: 'Values',
+            range: [1920, 1960]
+        },
+        grid: {rows: 1, columns: 1, pattern: 'independent'}
+    };
+
+    // Create the figure
+    var data = [trace];
+
+    // Plot the chart
+    Plotly.newPlot('plotly-chart', data, layout);
+</script>
+
+</body>
+</html>

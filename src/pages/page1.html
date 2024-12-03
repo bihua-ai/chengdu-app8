@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monitoring Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .status-normal {
+            color: green;
+        }
+        .status-abnormal {
+            color: orange;
+        }
+        .status-critical {
+            color: red;
+        }
+        .status-suspected {
+            color: yellow;
+        }
+        .status-warning {
+            color: darkorange;
+        }
+    </style>
+</head>
+<body>
+
+<table id="monitoringTable">
+    <thead>
+        <tr>
+            <th>Ⅰ 项目名称</th>
+            <th>Ⅱ 项目地点</th>
+            <th>Ⅲ 监测设备</th>
+            <th>设备说明</th>
+            <th>传感器状态</th>
+            <th>设备状态</th>
+            <th>放电类型</th>
+            <th>放电量信度</th>
+            <th>放电频次</th>
+            <th>处理建议</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Table rows will be inserted here by JavaScript -->
+    </tbody>
+</table>
+
+<script>
+    // Sample data
+    var data = [
+        { name: '在线检测项目', location: '变电站A', device: '变压器/电抗器', description: '10kV中置柜', sensorStatus: '正常', deviceStatus: '正常', dischargeType: '无', confidence: '', frequency: '0次/秒', advice: '保持现状' },
+        { name: '变电站B', location: '变电站B', device: '变压器/电抗器', description: '10kV中置柜', sensorStatus: '异常', deviceStatus: '正常', dischargeType: '无', confidence: '', frequency: '0次/秒', advice: '保持现状' },
+        { name: '变电站C', location: '变电站C', device: 'GIS设备', description: '10kV中置柜', sensorStatus: '异常', deviceStatus: '疑似', dischargeType: '无', confidence: '', frequency: '5次/秒', advice: '检查设备' },
+        { name: '发电站D', location: '发电站D', device: 'GIS设备', description: '10kV中置柜', sensorStatus: '正常', deviceStatus: '报警', dischargeType: '尖端放电', confidence: '90%', frequency: '20次/秒', advice: '立即维修' },
+        { name: '配电房E',

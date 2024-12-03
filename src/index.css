@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom cursor for resizing */
+.cursor-col-resize {
+  cursor: col-resize;
+}
+
+.cursor-row-resize {
+  cursor: row-resize;
+}
+
+/* Prevent text selection while resizing */
+.select-none {
+  user-select: none;
+}
+
+/* Ensure resize handles are above content */
+.resize-handle {
+  z-index: 10;
+}
+
+/* Prevent iframe pointer events during resize */
+.resizing iframe {
+  pointer-events: none;
+}
+
+/* Container positioning */
+.left-container {
+  position: relative;
+}
+
+/* Handle positioning */
+.resize-handle {
+  position: relative;
+  z-index: 20;
+}
+
+/* Vertical resize handle hover effect */
+.resize-handle:hover {
+  opacity: 1;
+}

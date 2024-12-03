@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plotly Line Chart</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        #plotly-chart {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            min-height: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div id="plotly-chart"></div>
+
+<script>
+    // Sample data
+    var dates = Array.from({length: 100}, (_, i) => new Date(2018, 10, 27, 0, 0).getTime() + i * 86400000);
+    var pH1 = Array.from({length: 100}, () => Math.random() * 2);
+    var pH2 = Array.from({length: 100}, () => Math.random() * 2 + 2);
+    var pH3 = Array.from({length: 100}, () => Math.random() * 2 + 4);
+
+    // Create the traces
+    var trace1 = {
+        x: dates,
+        y: pH1,
+        mode: 'lines',
+        name: 'pH1',
+        line: {color: 'blue'}
+    };
+
+    var trace2 = {
+        x: dates,
+        y: pH2,
+        mode: 'lines',
+        name: 'pH2',
+        line: {color: 'green'}
+    };
+
+    var trace3 = {
+        x: dates,
+        y: pH3,
+        mode: 'lines',
+        name: 'pH3',
+        line: {color: 'lightgreen'}
+    };
+
+    // Create the layout with responsive configuration
+    var layout = {
+        title: 'pH Levels Over Time',
+        xaxis: {
+            title: 'Date',
+            type: 'date',
+            range: [new Date(2018, 10, 27, 0, 0), new Date(2018, 11, 5, 0, 0)]
+        },
+        yaxis: {
+            title: 'pH Level',
+            range: [0, 6]
+        },
+        margin: {
+            l: 50,
+            r: 20,
+            t: 40,
+            b: 50
+        },
+        autosize: true,
+        showlegend: true,
+        legend: {
+            orientation: 'h',
+            y: -0.2
+        }
+    };
+
+    // Configuration for better responsiveness
+    var config = {
+        responsive: true,
+        displayModeBar: false
+    };
+
+    // Create the figure and handle window resize
+    function initPlot() {
+        Plotly.newPlot('plotly-chart', [trace1, trace2, trace3], layout, config);
+        
+        // Handle container resize
+        new ResizeObserver(() => {
+            Plotly.Plots.resize('plotly-chart');
+        }).observe(document.getElementById('plotly-chart'));
+    }
+
+    // Initialize the plot when the page loads
+    initPlot();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>3D Plot with Sample Data</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #plot {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="plot"></div>
+    <script>
+        // Sample data for 3D surface
+        const x = Array.from({ length: 30 }, (_, i) => i); // X-axis (0 to 29)
+        const y = Array.from({ length: 30 }, (_, i) => i); // Y-axis (0 to 29)
+        const z = [];
+
+        // Populate Z values with a sine-wave-like pattern
+        for (let i = 0; i < y.length; i++) {
+            z.push(x.map(val => Math.sin(val * 0.2 + i * 0.1) * 20 + 40)); // Sine wave for visualization
+        }
+
+        // 3D surface trace
+        const surfaceTrace = {
+            z: z,
+            x: x,
+            y: y,
+            type: 'surface',
+            colorscale: 'Jet',
+        };
+
+        // Sample data for 3D line
+        const lineX = Array.from({ length: 30 }, (_, i) => i); // X-coordinates for the line
+        const lineY = Array.from({ length: 30 }, () => 15); // Fixed Y-coordinate for the line
+        const lineZ = lineX.map(xi => Math.sin(xi * 0.2) * 20 + 50); // Sinusoidal Z values
+
+        const lineTrace = {
+            x: lineX,
+            y: lineY,
+            z: lineZ,
+            mode: 'lines',
+            type: 'scatter3d',
+            line: {
+                color: 'blue',
+                width: 4
+            }
+        };
+
+        // Layout configuration
+        const layout = {
+            title: '3D Surface with Overlaid Line',
+            autosize: true,
+            margin: { l: 0, r: 0, t: 30, b: 0 },
+            scene: {
+                xaxis: { title: 'X Axis' },
+                yaxis: { title: 'Y Axis' },
+                zaxis: { title: 'Z Axis' },
+            }
+        };
+
+        // Plot the figure and handle window resize
+        function initPlot() {
+            Plotly.newPlot('plot', [surfaceTrace, lineTrace], layout);
+            window.addEventListener('resize', () => {
+                Plotly.Plots.resize('plot');
+            });
+        }
+
+        // Initialize the plot when the page loads
+        initPlot();
+    </script>
+</body>
+</html>

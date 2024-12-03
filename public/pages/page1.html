@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monitoring List with Details Button</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .project {
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .project-content {
+            flex-grow: 1;
+        }
+        .project-header {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .project-item {
+            margin-bottom: 5px;
+        }
+        .status-normal {
+            color: green;
+        }
+        .status-abnormal {
+            color: orange;
+        }
+        .status-critical {
+            color: red;
+        }
+        .status-suspected {
+            color: yellow;
+        }
+        .status-warning {
+            color: darkorange;
+        }
+        .details-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .details-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div id="monitoringList">
+    <!-- Project items will be inserted here by JavaScript -->
+</div>
+
+<script>
+    // Sample data
+    var data = [
+        { name: '变电站A', location: '变电站A', device: '变压器/电抗器', deviceStatus: '正常' },
+        { name: '变电站B', location: '变电站B', device: '变压器/电抗器', deviceStatus: '异常' },
+        { name: '变电站C', location: '变电站C', device: 'GIS设备', deviceStatus: '疑似' },
+        { name: '发电站D', location: '发电站D', device: 'GIS设备', deviceStatus: '报警' },
+        { name: '配电房E', location: '配电房E', device: '开关柜', deviceStatus: '危险' }
+    ];
+
+    // Function to create list items
+    function createProjectList() {
+        var container = document.getElementById('monitoringList');
+        data.forEach(function(item) {
+            var projectDiv = document.createElement('div');
+            projectDiv.classList.add('project');
+
+            // Create project content
+            var contentDiv = document.createElement('div');
+            contentDiv.classList.add('project-content');
+            contentDiv.innerHTML = `
+                <div class="project-header">${item.name}</div>
+                <div class="project-item"><strong>项目地点:</strong> ${item.location}</div>
+                <div class="project-item"><strong>监测设备:</strong> ${item.device}</div>
+                <div class="project-item"><strong>设备状态:</strong> <span class="${getStatusClass(item.deviceStatus)}">${item.deviceStatus}</span></div>
+            `;
+
+            // Create "详情" button
+            var button = document.createElement('button');
+            button.classList.add('details-button');
+            button.textContent = '详情';
+            button.onclick = function() {
+                // Map each station to its corresponding page
+                const pageMap = {
+                    '变电站A': '/page4',
+                    '变电站B': '/page5',
+                    '变电站C': '/page2',
+                    '发电站D': '/page3',
+                    '配电房E': '/page4'
+                };
+                
+                // Post message to parent window for navigation
+                if (pageMap[item.name]) {
+                    window.parent.postMessage({
+                        type: 'frameNavigation',
+                        path: pageMap[item.name]
+                    }, '*');
+                }
+            };
+
+            // Append content and button to project div
+            projectDiv.appendChild(contentDiv);
+            projectDiv.appendChild(button);
+
+            // Append project div to container
+            container.appendChild(projectDiv);
+        });
+    }
+
+    // Function to determine status class
+    function getStatusClass(status) {
+        switch(status) {
+            case '正常': return 'status-normal';
+            case '异常': return 'status-abnormal';
+            case '疑似': return 'status-suspected';
+            case '报警': return 'status-warning';
+            case '危险': return 'status-critical';
+            default: return '';
+        }
+    }
+
+    // Initialize list
+    createProjectList();
+</script>
+
+</body>
+</html>
